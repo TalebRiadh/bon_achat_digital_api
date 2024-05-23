@@ -7,9 +7,13 @@ use App\Repository\MagasinRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: MagasinRepository::class)]
-#[ApiResource()]
+#[ApiResource(
+    normalizationContext: ['groups' => ['read:magasin']],
+    denormalizationContext: ['groups' => ['write:magasin']]
+)]
 class Magasin
 {
     #[ORM\Id]
@@ -18,12 +22,15 @@ class Magasin
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['read:magasin', 'write:magasin'])]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['read:magasin', 'write:magasin'])]
     private ?string $adresse = null;
 
     #[ORM\Column]
+    #[Groups(['read:magasin', 'write:magasin'])]
     private ?bool $autorise = null;
 
     /**

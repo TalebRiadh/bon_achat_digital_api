@@ -14,16 +14,20 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
-class User implements UserInterface, PasswordAuthenticatedUserInterface
+#[ApiResource(
+    normalizationContext: ['groups' => ['read:user']],
+    denormalizationContext: ['groups' => ['write:user']]
+)]
+class User implements UserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['read:bon_achat', 'write:bon_achat'])]
+    #[Groups(['read:bon_achat', 'write:bon_achat', 'read:user'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 180)]
-    #[Groups(['read:bon_achat'])]
+    #[Groups(['read:bon_achat', 'write:user'])]
     private ?string $email = null;
 
     /**
@@ -42,11 +46,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->bonAchats = new ArrayCollection();
     }
-    /**
-     * @var string The hashed password
-     */
-    #[ORM\Column]
-    private ?string $password = null;
+
 
     public function getId(): ?int
     {
@@ -99,29 +99,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @see PasswordAuthenticatedUserInterface
-     */
-    public function getPassword(): string
-    {
-        return $this->password;
-    }
 
-    public function setPassword(string $password): static
-    {
-        $this->password = $password;
-
-        return $this;
-    }
-
-    /**
-     * @see UserInterface
-     */
-    public function eraseCredentials(): void
-    {
-        // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
-    }
     /**
      * @return Collection<int, BonAchat>
      */
@@ -150,5 +128,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         return $this;
+    }
+
+    public function eraseCredentials(): void
+    {
+        // TODO: Implement eraseCredentials() method.
     }
 }
