@@ -31,8 +31,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class BonAchat
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
+    #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
     #[ORM\Column]
+    #[ORM\SequenceGenerator(sequenceName:"bon_achat_id_seq", allocationSize:1, initialValue:1)]
     #[Groups(['read:bon_achat'])]
     private ?int $id = null;
 

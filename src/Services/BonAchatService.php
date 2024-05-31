@@ -12,6 +12,10 @@ class BonAchatService
         protected EntityManagerInterface $em)
     {
     }
+
+    /**
+     * @throws \Exception
+     */
     public function CreateBonAchat($data)
     {
         /**
@@ -19,11 +23,13 @@ class BonAchatService
          */
         $bonAchat = new BonAchat();
         $bonAchat->setMontantInitial($data['montant_initial']);
-        $bonAchat->setMontantRestant($data['montant_initial']);  // initialisé au montant initial
+        $bonAchat->setMontantRestant($data['montant_initial']);
         $bonAchat->setDateCreation(new \DateTime());
         $bonAchat->setDateExpire(new \DateTime($data['date_expire']));
         $user = $this->em->getRepository(User::class)->find($data['user_id']);
         $bonAchat->setUser($user);
+        $this->em->persist($bonAchat);
+        $this->em->flush();
         return $bonAchat;
     }
 

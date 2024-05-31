@@ -31,8 +31,9 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 class Transaction
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
+    #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
     #[ORM\Column]
+    #[ORM\SequenceGenerator(sequenceName:"transaction_id_seq", allocationSize:1, initialValue:1)]
     #[Groups(['read:transaction'])]
     private ?int $id = null;
 
