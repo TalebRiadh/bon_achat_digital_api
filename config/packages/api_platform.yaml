@@ -2,9 +2,9 @@ api_platform:
     title: Bon d'achat digital API
     version: 1.0.0
     formats:
-        jsonld: ['application/ld+json']
+        json: [ 'application/json']
     docs_formats:
-        jsonld: ['application/ld+json']
+        json: [ 'application/json' ]
         jsonopenapi: ['application/vnd.openapi+json']
         html: ['text/html']
     defaults:

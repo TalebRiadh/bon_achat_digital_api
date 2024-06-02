@@ -24,7 +24,7 @@ class User implements UserInterface
     #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
     #[ORM\Column]
     #[ORM\SequenceGenerator(sequenceName:"user_id_seq", allocationSize:1, initialValue:1)]
-    #[Groups(['read:bon_achat', 'write:bon_achat', 'read:user'])]
+    #[Groups(['read:bon_achat', 'read:user'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 180)]

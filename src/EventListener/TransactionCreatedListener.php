@@ -14,12 +14,10 @@ use Symfony\Component\HttpFoundation\Response;
 
 class TransactionCreatedListener implements EventSubscriberInterface
 {
-    private $em;
-    private $mailer;
+    private MailerInterface $mailer;
 
     public function __construct(EntityManagerInterface $em, MailerInterface $mailer)
     {
-        $this->em = $em;
         $this->mailer = $mailer;
     }
 
@@ -54,8 +52,8 @@ class TransactionCreatedListener implements EventSubscriberInterface
         $email = (new Email())
             ->from('no-reply@example.com')
             ->to($transaction->getBon()->getUser()->getEmail())
-            ->subject('New Transaction Created')
-            ->text('A new transaction has been created with the following details:' . "\n\n" .
+            ->subject('Nouvelle transaction n°' . $transaction->getId() . ' créée')
+            ->text('Une nouvelle transaction a été créée avec les détails suivants:' . "\n\n" .
                 'Transaction ID: ' . $transaction->getId() . "\n" .
                 'Magasin: ' . $transaction->getMagasin()->getNom() . "\n" .
                 'Montant: ' . $transaction->getMontant() . "\n" .

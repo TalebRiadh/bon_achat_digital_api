@@ -50,6 +50,7 @@ class BonAchat
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     #[Groups(['read:bon_achat', 'write:bon_achat'])]
+    #[Context([DateTimeNormalizer::FORMAT_KEY => 'Y-m-d'])]
     private ?\DateTimeInterface $date_expire = null;
 
     #[ORM\ManyToOne(cascade: ['persist'], inversedBy: 'bonAchats')]
