@@ -19,7 +19,7 @@ class Magasin
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
     #[ORM\Column]
-    #[ORM\SequenceGenerator(sequenceName:"magasin_id_seq", allocationSize:1, initialValue:1)]
+    #[ORM\SequenceGenerator(sequenceName:"id", allocationSize:1, initialValue:1)]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]

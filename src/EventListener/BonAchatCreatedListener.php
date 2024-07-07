@@ -51,7 +51,7 @@ class BonAchatCreatedListener implements EventSubscriberInterface
     {
         $magasins = "";
         foreach ($bonAchat->getMagasins() as $magasin){
-            $magasins = sprintf("- %s \n", $magasin->getNom());
+            $magasins .= sprintf("- %s \n", $magasin->getNom());
         }
         $email = (new Email())
             ->from('no-reply@example.com')
@@ -62,7 +62,6 @@ class BonAchatCreatedListener implements EventSubscriberInterface
                 'Nom d\'utilisateur: '. $bonAchat->getUser()->getEmail(). "\n" .
                 "Listes des magasins: \n" . $magasins .
                 'Montant: ' . $bonAchat->getMontantRestant() . "\n");
-
         try {
             $this->mailer->send($email);
         } catch (\Exception $e) {

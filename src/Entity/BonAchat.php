@@ -33,7 +33,7 @@ class BonAchat
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
     #[ORM\Column]
-    #[ORM\SequenceGenerator(sequenceName:"bon_achat_id_seq", allocationSize:1, initialValue:1)]
+    #[ORM\SequenceGenerator(sequenceName:"id", allocationSize:1, initialValue:1)]
     #[Groups(['read:bon_achat'])]
     private ?int $id = null;
 
@@ -50,7 +50,6 @@ class BonAchat
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     #[Groups(['read:bon_achat', 'write:bon_achat'])]
-    #[Context([DateTimeNormalizer::FORMAT_KEY => 'Y-m-d'])]
     private ?\DateTimeInterface $date_expire = null;
 
     #[ORM\ManyToOne(cascade: ['persist'], inversedBy: 'bonAchats')]

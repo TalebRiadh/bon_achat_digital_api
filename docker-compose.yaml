@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  php8-sf7:
+    container_name: php8-sf7
+    build:
+      context: .
+      dockerfile: php8-sf7/Dockerfile
+    ports:
+      - "9000:8000"
+    volumes:
+      - .:/var/www/html
+    networks:
+      - docker_workspace_network
+    depends_on:
+      - db
+      - mailhog
+
+  mailhog:
+    image: 'mailhog/mailhog:latest'
+    ports:
+      - '${FORWARD_MAILHOG_PORT:-1025}:1025'
+      - '${FORWARD_MAILHOG_DASHBOARD_PORT:-8025}:8025'
+    networks:
+      - docker_workspace_network
+
+  db:
+    image: postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - docker_workspace_network
+
+  adminer:
+    image: adminer
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    networks:
+      - docker_workspace_network
+
+networks:
+  docker_workspace_network:
+    driver: bridge
